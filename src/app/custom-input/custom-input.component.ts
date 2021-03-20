@@ -15,16 +15,27 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 })
 export class CustomInputComponent implements ControlValueAccessor {
   constructor() {}
-  writeValue(obj: any): void {
-    throw new Error("Method not implemented.");
+  onChange: any = () => {};
+  onTouch: any = () => {};
+  val = "";
+
+  set value(val) {
+    if (val !== undefined && this.val !== val) {
+      this.val = val;
+      this.onChange(val);
+      this.onTouch(val);
+    }
   }
-  registerOnChange(fn: any): void {
-    throw new Error("Method not implemented.");
+
+  writeValue(value: any) {
+    this.value = value;
   }
-  registerOnTouched(fn: any): void {
-    throw new Error("Method not implemented.");
+
+  registerOnChange(fn: any) {
+    this.onChange = fn;
   }
-  setDisabledState?(isDisabled: boolean): void {
-    throw new Error("Method not implemented.");
+
+  registerOnTouched(fn: any) {
+    this.onTouch = fn;
   }
 }
